@@ -32,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         time: {
-            type: DataTypes.STRING,
-            allowNull: true,
+            type: DataTypes.INTEGER,
+            allowNull: false,
         },
 
     }, {

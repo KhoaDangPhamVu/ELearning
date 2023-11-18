@@ -13,6 +13,9 @@ export const useQuestionStore = defineStore('questionStore', {
     totalQuestions() {
       return this.questions.length;
     },
+    lastIndex(){
+      return this.questions.length-1;
+    }
 
   },
   actions: {
@@ -78,7 +81,6 @@ export const useQuestionStore = defineStore('questionStore', {
     },
     filteredQuestion(examID) {
       const numExamID = Number(examID)
-      console.log(numExamID)
       return this.questions.filter(question => question.examID === numExamID);
     },
     randomQuestionID() {
@@ -108,6 +110,18 @@ export const useQuestionStore = defineStore('questionStore', {
       this.choosedQuestion.push(selectedQuestion)
       console.log(this.choosedQuestion)
       
+    },
+    getLastQuestion(){
+      try {
+        
+        const lastQuestion = this.questions[this.questions.length -1];
+        const lastQuestionID = lastQuestion ? lastQuestion.questionID : null;
+        console.log('Last Question ID:', lastQuestionID);
+        return lastQuestionID;
+      } catch (error) {
+        console.log('Error:', error);
+        return null;
+      }
     }
   }
 })

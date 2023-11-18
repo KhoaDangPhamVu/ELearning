@@ -118,15 +118,13 @@ const handleSignIn = async () => {
   try {
     const response = await authStore.login(username.value, password.value);
 
-    console.log(response);
-  
-    // if (response) {
-    //   const token =response.token
-    //   authStore.setToken(token);
-    // } else {
-    //   // Handle the case where the response does not contain the token
-    //   console.error("Login response is missing the token.");
-    // }
+    if (response) {
+      const token =response.token
+      authStore.setToken(token);
+    } else {
+      // Handle the case where the response does not contain the token
+      console.error("Login response is missing the token.");
+    }
   } catch (error) {
     console.error("Error during sign-in:", error);
   }

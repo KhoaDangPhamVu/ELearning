@@ -32,7 +32,7 @@ require("./routes/authRouter.js")(app);
 require("./routes/userRouter.js")(app);
 require("./routes/questionRouter.js")(app);
 require("./routes/examRouter.js")(app);
-require("./routes/examHistoryRouter.js")(app);
+require("./routes/trackingExamRouter.js")(app);
 require("./routes/resultRouter.js")(app);
 
 // app.use('/api/exam',routerExam)
@@ -53,7 +53,7 @@ const Role = db.role;
 
 db.sequelize.sync({force: false}).then(() => {
   console.log('Drop and Resync Database with { force: true }');
-  // initial();
+  //initial();
 });
 
 function initial() {

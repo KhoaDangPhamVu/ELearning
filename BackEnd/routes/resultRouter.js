@@ -10,7 +10,9 @@ module.exports = function(app) {
       next();
     });
 
-    app.get('/api/result/getQuestResult/:userID/:examID',resultController.getQuestionsHistoryInExam);
+    app.get('/api/result/getQuestResult/:userID/:examID',resultController.getTrackingQuestInExam);
 
     app.get('/api/result/getScoreAndQuest/:userID/:examID',resultController.getQuestionsAndCorrectQuest);
+
+    app.post('/api/result/addResult',resultController.addResult)
 };

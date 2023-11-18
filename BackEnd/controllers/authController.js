@@ -81,7 +81,7 @@ const signin = async (req, res) => {
             authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
 
-        // req.session.token = token;
+         req.session.token = token;
         console.log("successful")
         return res.status(200).send({
             user: userJson,

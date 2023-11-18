@@ -1,5 +1,4 @@
-const questionHistoryController = require('../controllers/examHistoryController');
-
+const trackingExamController = require('../controllers/trackingExamController');
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
@@ -9,7 +8,7 @@ module.exports = function(app) {
       );
       next();
     });
-  
-    app.post('/api/history/addQuestHistory',questionHistoryController.createQuestHistory);
+    
+    app.post('/api/history/addTrackingExam',trackingExamController.createTrackingExam)
 
 };

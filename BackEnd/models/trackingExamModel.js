@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-    const ExamHistory = sequelize.define("examHistory", {
-        historyID: {
+    const TrackingExam = sequelize.define("trackingExam", {
+        trackingID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
@@ -46,5 +46,5 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         timestamps: false,
     });
-    return ExamHistory;
+    return TrackingExam;
 };

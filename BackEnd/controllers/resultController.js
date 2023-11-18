@@ -1,8 +1,10 @@
 const db = require("../models");
 const { QueryTypes } = require("sequelize");
 
+const Result = db.results;
+
 // 1. Lấy thông tin đã làm bài của người dùng.
-const getQuestionsHistoryInExam = async (req, res) => {
+const getTrackingQuestInExam = async (req, res) => {
   try {
     const examID = req.params.examID;
     const userID = req.params.userID;
@@ -10,8 +12,8 @@ const getQuestionsHistoryInExam = async (req, res) => {
     console.log(userID);
     const query = `
       SELECT			
-      examHistories.questionID,
-      examHistories.selectedAnswer,
+      trackingexams.questionID,
+      trackingexams.selectedAnswer,
       answers.correctAnswer,
       questions.questionText,
       questions.option1,
@@ -19,13 +21,13 @@ const getQuestionsHistoryInExam = async (req, res) => {
       questions.option3,
       questions.option4
     FROM
-      examHistories
+      trackingexams
     LEFT JOIN
-      questions ON examHistories.questionID = questions.questionID
+      questions ON trackingexams.questionID = questions.questionID
     LEFT JOIN
       answers ON questions.questionID = answers.questionID
     WHERE
-      examHistories.userID = :userID
+      trackingexams.userID = :userID
       AND questions.examID = :examID;
   `;
     const questions = await db.sequelize.query(query, {
@@ -40,43 +42,6 @@ const getQuestionsHistoryInExam = async (req, res) => {
   }
 };
 
-// 2. Tính điểm và tổng câu hỏi.
-// const getScoreAndNumQuests = async (req, res) => {
-//   try {
-//     const examID = req.params.examID;
-//     const userID = req.params.userID;
-//     const queryQuestion = `
-//       SELECT COUNT(examID) AS "NumberQuest" FROM questions WHERE examID = :examID
-//       `;
-//     const query = `
-//       SELECT
-//         SUM(CASE WHEN examHistories.selectedAnswer = answers.correctAnswer THEN 1 ELSE 0 END) AS numOfCorrectAnswer
-//   FROM
-//     examHistories
-//   LEFT JOIN
-//     questions ON examHistories.questionID = questions.questionID
-//   LEFT JOIN
-//     answers ON questions.questionID = answers.questionID
-//   WHERE
-//     examHistories.userID = :userID
-//     AND questions.examID = :examID;
-//     `;
-//     const score = await db.sequelize.query(query, {
-//       replacements: { examID: examID, userID: userID },
-//       type: QueryTypes.SELECT,
-//     });
-//     const numQuestExam = await db.sequelize.query(queryQuestion, {
-//         replacements: { examID: examID },
-//         type: QueryTypes.SELECT
-//       });
-//     const result = {score.data ,numQuestExam.data }
-//     res.status(200).json(result);
-//   } catch (error) {
-//     // Handle errors
-//     console.error(error);
-//     res.status(500).json({ error: "An error occurred" });
-//   }
-// };
 
 const getQuestionsAndCorrectQuest = async (req, res) => {
     try {
@@ -89,15 +54,15 @@ const getQuestionsAndCorrectQuest = async (req, res) => {
   
       const queryCorrectQuest = `
         SELECT
-          SUM(CASE WHEN examHistories.selectedAnswer = answers.correctAnswer THEN 1 ELSE 0 END) AS numOfCorrectAnswer
+          SUM(CASE WHEN trackingexams.selectedAnswer = answers.correctAnswer THEN 1 ELSE 0 END) AS numOfCorrectAnswer
         FROM
-          examHistories
+          trackingexams
         LEFT JOIN
-          questions ON examHistories.questionID = questions.questionID
+          questions ON trackingexams.questionID = questions.questionID
         LEFT JOIN
           answers ON questions.questionID = answers.questionID
         WHERE
-          examHistories.userID = :userID
+          trackingexams.userID = :userID
           AND questions.examID = :examID;
       `;
   
@@ -125,7 +90,35 @@ const getQuestionsAndCorrectQuest = async (req, res) => {
     }
   };
 
+  // 3. Add result
+
+  const addResult = async(req,res) => {
+    try{
+      // Request body
+      const {resultID,examID,userID,score,time} = req.body
+
+      // Check validate
+      if(!resultID || !examID || !userID || !score || !time){
+        return res.status(400).json({ success: false, message: 'Missing required fields in the request body.' });
+      } 
+
+      const result =  await Result.create({
+        resultID,
+        examID,
+        userID,
+        score,
+        time
+      })
+
+      res.status(200).json({ success: true, message: 'Result created successfully', data: result });
+
+    }catch(err){
+      res.status(500).send(`An error occurred while add Result: ${err.message}`);
+    }
+  }
+
 module.exports = {
-  getQuestionsHistoryInExam,
+  getTrackingQuestInExam,
   getQuestionsAndCorrectQuest,
+  addResult
 };

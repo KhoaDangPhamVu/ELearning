@@ -36,7 +36,7 @@ db.exams = require('./examModel.js')(sequelize,DataTypes)
 db.questions = require('./questionModel.js')(sequelize,DataTypes)
 db.answers = require('./answerModel.js')(sequelize,DataTypes)
 db.results = require('./resultModel.js')(sequelize,DataTypes)
-db.questionsHistory = require('./examHistoryModel.js')(sequelize,DataTypes)
+db.trackingExam = require('./trackingExamModel.js')(sequelize,DataTypes)
 db.user = require("../models/userModel.js")(sequelize,DataTypes);
 db.role = require("../models/roleModel.js")(sequelize,DataTypes);
 
