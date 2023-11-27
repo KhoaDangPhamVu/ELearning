@@ -645,7 +645,6 @@ onMounted(async () => {
       }
       clearInterval(timerInterval); // Stop the timer when time is up
       
-      
     }
   }, 1000); // Update every second
 });

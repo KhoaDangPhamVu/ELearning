@@ -27,7 +27,12 @@ export default {
       greenDark: '#327846',
       greenLight: '#D7E6DC',
       peachColor: '#FFC5C5',
-      greenBlur: '#A6CF98'
+      greenBlur: '#A6CF98',
+      grayDropDown: '#444546',
+      redLight: "#C70039",
+      whiteMilk: '#FCFDFE',
+      blueLight: '#BFDBFE',
+      
     }
   },
   

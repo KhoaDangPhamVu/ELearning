@@ -7,6 +7,7 @@ import QuizPage from "../views/User/QuizPage.vue";
 import { useExamStore } from "../store/exam";
 import { useQuestionStore } from "../store/question";
 import ResultPage from "../views/User/ResultPage.vue";
+import UserProfilePage from "../views/CommonPage/UserProfile.vue";
 
 
 const routes = [
@@ -57,6 +58,12 @@ const routes = [
     name: "ResultPage",
     component: ResultPage,
   },
+  {
+    path: "/profile",
+    name: "UserProfile",
+    component: UserProfilePage
+  }
+
 ];
 
 const router = createRouter({

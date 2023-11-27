@@ -13,4 +13,5 @@ export default defineConfig({
   },
   publicPath: process.env.BASE_URL,
   plugins: [vue()],
+
 })

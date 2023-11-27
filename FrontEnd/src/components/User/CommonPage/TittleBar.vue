@@ -1,5 +1,6 @@
 <script setup>
     import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+    import AccountDropDown from './AccountDropDown.vue'
 </script>
 
 <template>
@@ -27,8 +28,11 @@
                     <li><a href="#" class="hover:text-primaryLightColor font-medium px-6 text-lg">Blog</a></li>
                 </ul>
 
+                <div>
+                   <account-drop-down></account-drop-down>
+                </div>
                 <!-- Login Button -->
-                <button class=" bg-primaryBlue hover:bg-blue-600 text-white font-medium py-2 w-40 px-4 rounded-lg">
+                <button class=" bg-primaryBlue hover:bg-blue-600 text-white font-medium py-2 w-40 px-4 rounded-lg hidden">
                     Let's start  <font-awesome-icon icon="arrow-right" class="ml-4" />
                 </button>
             </div>
