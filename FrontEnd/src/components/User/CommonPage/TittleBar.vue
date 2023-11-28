@@ -28,7 +28,7 @@
                     <li><a href="#" class="hover:text-primaryLightColor font-medium px-6 text-lg">Blog</a></li>
                 </ul>
 
-                <div>
+                <div class="p-4">
                    <account-drop-down></account-drop-down>
                 </div>
                 <!-- Login Button -->

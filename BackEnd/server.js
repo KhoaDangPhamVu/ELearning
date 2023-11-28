@@ -34,6 +34,7 @@ require("./routes/questionRouter.js")(app);
 require("./routes/examRouter.js")(app);
 require("./routes/trackingExamRouter.js")(app);
 require("./routes/resultRouter.js")(app);
+require('./routes/audioRouter.js')(app);
 
 // app.use('/api/exam',routerExam)
 // app.use('/api/question',routerQuestion)

@@ -174,7 +174,7 @@
             <div class="flex flex-wrap mt-5 -mx-2.5 items-stretch">
               <div class="w-full sm:w-6/12 xl:w-4/12 p-2.5" v-for="exam in examStore.filteredExam('Listening')"
               :key="exam.examID">
-              <router-link :to="{name: 'QuizPage',params: {id: exam.examID }}">
+              <router-link :to="{name: 'ListeningPage',params: {id: exam.examID }}">
                 <div
                   class="border-2 border-none rounded-2xl p-5 flex items-center cursor-pointer"
                 >

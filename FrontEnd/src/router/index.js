@@ -8,7 +8,7 @@ import { useExamStore } from "../store/exam";
 import { useQuestionStore } from "../store/question";
 import ResultPage from "../views/User/ResultPage.vue";
 import UserProfilePage from "../views/CommonPage/UserProfile.vue";
-
+import ListeningPage from "../views/User/ListeningPage.vue";
 
 const routes = [
   {
@@ -31,7 +31,7 @@ const routes = [
     },
   },
   {
-    path: "/home/practice/exam/:id",
+    path: "/home/practice/exam/reading/:id",
     name: "QuizPage",
     component: QuizPage,
     beforeEnter: async (to, from, next) => {
@@ -62,6 +62,19 @@ const routes = [
     path: "/profile",
     name: "UserProfile",
     component: UserProfilePage
+  },
+  {
+    path: "/home/practice/exam/listening/:id",
+    name: "ListeningPage",
+    component: ListeningPage,
+    beforeEnter: async (to, from, next) => {
+      const questionStore = useQuestionStore();
+
+      const examId = to.params.id;
+
+      await questionStore.getQuestionInExam(examId);
+      next();
+    },
   }
 
 ];

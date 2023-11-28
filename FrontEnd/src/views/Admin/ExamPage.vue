@@ -110,9 +110,12 @@
                 <div class="flex justify-between">
                   <div class="flex items-center">
                     <img src="../../assets/images/file.png" alt="" class="w-6 h-6 mr-2" />
-                    <h2 class="font-bold text-lg md:text-xl text-center">
+                    <router-link :to="{name: 'QuestionPage',params: {id: exam.examID }}">
+                      <h2 class="font-bold text-lg md:text-xl text-center">
                       {{ exam.title }}
                     </h2>
+                    </router-link>
+                    
                   </div>
                   <div
                     class="flex flex-col xl:flex-row items-center bg-grayLight rounded-lg shadow-lg p-2 cursor-pointer"
@@ -134,7 +137,7 @@
                       alt=""
                       class="w-6 h-6 mr-2"
                     />
-                    <h2>{{ exam.duration }} minutes</h2>
+                    <h2>{{ exam.duration/60 }} minutes</h2>
                   </div>
                   <div class="flex mt-2">
                     <img
