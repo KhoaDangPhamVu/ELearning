@@ -3,7 +3,6 @@ const cors = require('cors');
 const cookieSession = require("cookie-session");
 const app = express();
 
-require('./passport.js')
 
 // Define CORS options
 const corsOptions = {

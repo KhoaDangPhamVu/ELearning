@@ -9,11 +9,17 @@ import { useQuestionStore } from "../store/question";
 import ResultPage from "../views/User/ResultPage.vue";
 import UserProfilePage from "../views/CommonPage/UserProfile.vue";
 import ListeningPage from "../views/User/ListeningPage.vue";
+import LoginPage from "../views/User/LoginPage.vue";
 
 const routes = [
   {
     path: "",
     redirect: "/home", // Redirect the empty path to '/Home'
+  },
+  {
+    path: "/login",
+    name: "LoginPage",
+    component: LoginPage,
   },
   {
     path: "/home",

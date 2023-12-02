@@ -1,7 +1,6 @@
 
 const examController = require('../controllers/examController');
-const isAuthenticated = require('../policies/isAuthenticated');
-const { authJwt } = require("../middleware");
+
 
 module.exports = function (app) {
     app.use(function (req, res, next) {

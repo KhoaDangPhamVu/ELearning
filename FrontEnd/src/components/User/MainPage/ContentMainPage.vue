@@ -1,7 +1,3 @@
-<script lang="ts" setup>
-
-</script>
-
 <template>
     
     <div class="bg-white">
@@ -127,3 +123,19 @@
 
     <!-- strategic partnership -->
 </template>
+
+
+<script  setup>
+import { ref,onMounted } from 'vue';
+
+import { useAuthStore } from '../../../store/auth';
+import { useRouter } from "vue-router";
+
+const user = ref(null);
+const authStore = useAuthStore();
+
+onMounted(() => {
+    user.value = authStore.getUserValue;
+    
+});
+</script>

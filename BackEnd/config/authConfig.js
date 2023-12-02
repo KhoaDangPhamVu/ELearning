@@ -1,3 +1,3 @@
 module.exports = {
-    jwtSecret: "DangKhoavsChayDoAn-secret-key"
+    secret: "DangKhoavsChayDoAn-secret-key"
 };

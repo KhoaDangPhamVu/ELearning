@@ -1,136 +1,127 @@
-<!-- <template>
-    <div class="w-full max-w-xs">
-  <form v-on:submit.prevent="handleSignIn" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" >
-    <div class="mb-4">
-      <label class="block text-gray-700 text-sm font-bold mb-2"  for="username" >
-        Username
-      </label>
-      <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" v-model="username" placeholder="Username">
+
+
+<template>
+  <div class='flex items-center justify-center min-h-screen bg-gradient-to-r from-purpleLinear from-10% via-blueLinear via-30% to-greenLinear to-90%'>
+    <div class='w-full max-w-lg px-10 py-8 mx-auto bg-white rounded-xl shadow-[10px_15px_20px_-15px_rgba(0,0,0,0.8)]'>
+        <div class='max-w-md mx-auto space-y-3'>
+
+            <div v-if="!isLoginPage" class="space-y-4 relative">
+                <div class="absolute top-0 left-0 cursor-pointer" @click="isLoginPage = true"> <img src="../../assets/images/backArrow.png" alt="" class="h-8 w-8"> </div>
+                <header class="mb-3 text-2xl font-bold text-center">Create your profile &#128540;</header>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray focus-within:ring-blueColor">
+                    <input v-model="username" type="text" placeholder="username" class="my-3 w-full border-none bg-transparent outline-none focus:outline-none" required/>
+                </div>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray focus-within:ring-blueColor">
+                    <input v-model="password" type="password" placeholder="password" class="my-3 w-full border-none bg-transparent outline-none focus:outline-none" required/>
+                </div>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray focus-within:ring-blueColor">
+                    <input v-model="email" type="text" placeholder="Email" class="my-3 w-full border-none bg-transparent outline-none focus:outline-none" required/>
+                </div>
+                
+                <button @click.prevent="handleRegister" class="w-full rounded-2xl border-b-4 border-b-blueColor bg-primaryBlue py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400">CREATE ACCOUNT</button>
+            </div>
+
+            <div v-if="isLoginPage" class="space-y-4">
+              
+
+              <div v-if="authStore.registerFail" class="bg-peachColor text-md font-semibold w-full rounded-xl p-2">
+                <p>Register Failed! &#128557;</p>
+
+              </div>
+              <div v-if="authStore.registerSuccessful" class="bg-greenBlur text-md font-semibold w-full rounded-xl p-2">
+                <p>Register Successful! &#128540;</p>
+
+              </div>
+
+              <div v-if="authStore.loginFail" class="bg-peachColor text-md font-semibold w-full rounded-xl p-2">
+                <p> Username or Password wrong! &#128557;</p>
+
+              </div>
+              
+              <header class="mb-3 text-3xl font-bold text-center">Log in here!</header>
+                <div class="w-full rounded-2xl bg-gray-50 px-4 ring-2 ring-gray focus-within:ring-blueColor">
+                    <input v-model="username" type="text" placeholder="username" class="my-3 w-full border-none bg-transparent outline-none focus:outline-none" />
+                </div>
+                <div class="flex w-full items-center space-x-2 rounded-2xl bg-gray-50 px-4 ring-2 ring-gray focus-within:ring-blueColor">
+                    <input v-model="password" type="password" placeholder="Password" class="my-3 w-full border-none bg-transparent outline-none" />
+                </div>
+                <div class="flex gap-3 pt-3 items-center">
+
+                <button @click.prevent="handleSignIn" class="w-1/2 rounded-2xl border-b-4 border-b-blueColor bg-primaryBlue py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400">LOGIN</button>
+                <button class="w-1/2 rounded-2xl border-b-4 border-b-blueColor bg-primaryBlue py-3 font-bold text-white hover:bg-blue-400 active:translate-y-[0.125rem] active:border-b-blue-400" @click="isLoginPage = false">SIGNUP</button>
+            </div>
+            </div>
+
+            
+        </div>
     </div>
-    <div class="mb-6">
-      <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-        Password
-      </label>
-      <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" v-model="password" type="password" placeholder="******************">
-      <p class="text-red-500 text-xs italic">Please choose a password.</p>
-    </div>
-    <div class="flex items-center justify-between">
-      <button class="bg-primaryBlue hover:bg-greenDark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-        Sign In
-      </button>
-      <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-        Forgot Password?
-      </a>
-    </div>
-  </form>
-  <p class="text-center text-gray-500 text-xs">
-    &copy;2020 Acme Corp. All rights reserved.
-  </p>
 </div>
 </template>
 
-<script>
-import { ref } from 'vue';
+<script setup>
+import { ref,onMounted } from 'vue';
 // import { useAuthStore } from "../../store/auth";
-
-// const authStore = useAuthStore();
+import { useAuthStore } from '../../store/auth';
+import { useRouter } from "vue-router";
+const router = useRouter();
+const authStore = useAuthStore();
 const username = ref(null);
 const password = ref(null);
+const email = ref(null);
+const isLoginPage = ref(true);
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const isEmailValid = () => {
+  return emailRegex.test(email.value);
+};
+
 
 const handleSignIn=async()=>{
-    console.log(username.value);
-    console.log(password.value)
-    // await authStore.login()
+  const user = {
+    username: username.value,
+    password: password.value
+  }
+  console.log(user);
+  await authStore.login(user);
+  if(authStore.getLoggedInValue){
+    router.push({
+          name: "HomePage",
+    });
+  }
+
 }
 
-</script> -->
 
-<!-- <template>
-  <div class="w-full max-w-xs">
-    <form
-      @submit.prevent="handleSignIn"
-      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-    >
-      <div class="mb-4">
-        <label
-          class="block text-gray-700 text-sm font-bold mb-2"
-          for="username"
-        >
-          Username
-        </label>
-        <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="username"
-          type="text"
-          v-model="username"
-          placeholder="Username"
-        />
-      </div>
-      <div class="mb-6">
-        <label
-          class="block text-gray-700 text-sm font-bold mb-2"
-          for="password"
-        >
-          Password
-        </label>
-        <input
-          class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          id="password"
-          v-model="password"
-          type="password"
-          placeholder="******************"
-        />
-        <p class="text-red-500 text-xs italic">Please choose a password.</p>
-      </div>
-      <div class="flex items-center justify-between">
-        <button
-          class="bg-primaryBlue hover:bg-greenDark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="submit"
-        >
-          Sign In
-        </button>
-      </div>
-    </form>
-    <button
-      class="bg-red hover:bg-greenDark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      @click="handleSignOut"
-      type="button"
-    >
-      Sign Out
-    </button>
-  </div>
-</template>
+const handleRegister = async()=>{
+  if (!isEmailValid()) {
+    // Handle invalid email here
+    console.error('Invalid email format');
+    authStore.showRegisterFail();
+    isLoginPage.value = true;
+    return;
+  }
 
-<script setup>
-// import { ref } from "vue";
-// import { useAuthStore } from "../../store/auth";
+  const user = {
+    username: username.value,
+    password: password.value,
+    email: email.value
+  };
 
-// const authStore = useAuthStore();
+  await authStore.register(user);
+  resetForm();
+  isLoginPage.value = true;
 
-// const username = ref(null);
-// const password = ref(null);
+}
 
-// const handleSignIn = async () => {
-//   // await authStore.login(username.value,password.value);
-//   // const token = response.token;
-//   // console.log(token)
-//   // // authStore.setToken(token);
-//   try {
-//     const response = await authStore.login(username.value, password.value);
+const resetForm = ()=>{
+  username.value = null;
+  password.value = null;
+  email.value = null;
+}
 
-//     if (response) {
-//       const token =response.token
-//       authStore.setToken(token);
-//     } else {
-//       // Handle the case where the response does not contain the token
-//       console.error("Login response is missing the token.");
-//     }
-//   } catch (error) {
-//     console.error("Error during sign-in:", error);
-//   }
-// };
+onMounted(() => {
 
-// const handleSignOut = () => {
-//   authStore.logout();
-// };
-</script> -->
+});
+
+
+</script>

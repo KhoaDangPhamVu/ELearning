@@ -259,8 +259,20 @@ import FooterBar from "../../components/User/CommonPage/FooterBar.vue";
 import ContentPracticePage from "../../components/User/PracticePage/ContentPracticePage.vue";
 import { onMounted } from "vue";
 import { useExamStore } from "../../store/exam";
+import { useAuthStore } from "../../store/auth";
+import { useRouter } from "vue-router";
 
 const examStore = useExamStore();
+const authStore = useAuthStore();
+const router = useRouter();
+
+onMounted(() => {
+  if(!authStore.getUserValue){
+    router.push({
+          name: "LoginPage",
+    });
+  }
+});
 
 
 </script>

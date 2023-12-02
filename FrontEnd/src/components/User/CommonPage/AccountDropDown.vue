@@ -22,7 +22,7 @@
           <ul>
             <li>
               <router-link
-                :to="{name: 'UserProfile',params: {userID: 2015 }}"
+                :to="{name: 'UserProfile',params: {userID: userID }}"
                 class="rounded-t-lg block px-4 py-3 text-white hover:bg-[#575859]"
                 
               >
@@ -60,15 +60,12 @@
               
             </li>
             <li class="text-white ">
-                <router-link
-                to="/profile"
-                class=" block px-4 py-3 text-white hover:bg-redLight"
-              >
-                <div class="flex items-center">
+                
+                <div class=" px-4 py-3 text-white hover:bg-redLight flex items-center cursor-pointer" @click="handleLogOut">
                     <div class=" flex justify-center items-center ml-1 mr-4 w-8 h-8 rounded-full bg-[#575859]">
                         
                     <img
-                      class="h-4 w-4 ml-1 cursor-pointer "
+                      class="h-4 w-4 ml-1  "
                       src="../../../assets/images/logout.png"
                       alt="profile image"
                     />
@@ -76,10 +73,10 @@
                   <div class="font-semibold block "><p>Signout</p></div>
                   
                 </div>
-              </router-link>
+             
               
             </li>
-            <li class="text-white ">
+            <!-- <li class="text-white ">
                 <router-link
                 to="/profile"
                 class=" block px-4 py-3 text-white hover:bg-primaryBlue"
@@ -98,7 +95,7 @@
                 </div>
               </router-link>
               
-            </li>
+            </li> -->
           </ul>
         </div>
       </transition>
@@ -107,10 +104,33 @@
 </template>
 
 <script setup>
-import { ref} from "vue";
-import DropDown from "./DropDown.vue";
 
-const username = ref("Khoa Farm");
+import { ref,onMounted } from 'vue';
+import DropDown from "./DropDown.vue";
+import { useAuthStore } from '../../../store/auth';
+import { useRouter } from "vue-router";
+
+const user = ref(null);
+const username = ref(null);
+const userID =ref(null);
+const authStore = useAuthStore();
+const router = useRouter();
+
+const handleLogOut = ()=>{
+  authStore.logout();
+  window.location.reload();
+}
+
+
+onMounted(() => {
+    user.value = authStore.getUserValue;
+    username.value = user.value.username
+    userID.value = user.value.id;
+
+    
+});
+
+
 
 // Declare context here
 const { open, toggleOpen } = defineProps(["open", "toggleOpen"]);

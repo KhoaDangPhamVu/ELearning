@@ -1,12 +1,9 @@
-<script setup>
-    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-    import AccountDropDown from './AccountDropDown.vue'
-</script>
+
 
 <template>
     <header class="px-12 bg-white sticky top-0 z-50 shadow-md">
         <div class="bg-gray-900 text-black p-2">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-around">
 
                 <!-- Logo and Name -->
                 <div class="flex items-center space-x-2">
@@ -28,14 +25,37 @@
                     <li><a href="#" class="hover:text-primaryLightColor font-medium px-6 text-lg">Blog</a></li>
                 </ul>
 
-                <div class="p-4">
+                <div v-if="user" class="p-2 ">
                    <account-drop-down></account-drop-down>
                 </div>
-                <!-- Login Button -->
-                <button class=" bg-primaryBlue hover:bg-blue-600 text-white font-medium py-2 w-40 px-4 rounded-lg hidden">
+                <div v-else class="p-2 ">
+                    <router-link :to="{name: 'LoginPage'}">
+                    <button   class=" bg-primaryBlue hover:bg-blue-600 text-white font-medium py-2 w-40 px-4 rounded-lg ">
                     Let's start  <font-awesome-icon icon="arrow-right" class="ml-4" />
-                </button>
+                </button>    
+                </router-link>
+                </div>
+                <!-- Login Button -->
+                
             </div>
         </div>
     </header>
 </template>
+
+<script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import AccountDropDown from './AccountDropDown.vue';
+import { ref,onMounted } from 'vue';
+
+import { useAuthStore } from '../../../store/auth';
+import { useRouter } from "vue-router";
+
+const user = ref(null);
+const authStore = useAuthStore();
+
+onMounted(() => {
+    user.value = authStore.getUserValue;
+    
+});
+</script>
+
