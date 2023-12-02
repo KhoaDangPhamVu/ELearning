@@ -22,8 +22,9 @@
           <ul>
             <li>
               <router-link
-                to="/profile"
+                :to="{name: 'UserProfile',params: {userID: 2015 }}"
                 class="rounded-t-lg block px-4 py-3 text-white hover:bg-[#575859]"
+                
               >
                 <div class="flex items-center">
                     <div class="mr-2">

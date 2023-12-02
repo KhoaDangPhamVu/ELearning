@@ -87,7 +87,7 @@ const getQuestionsInExam = async (req, res) => {
   try {
     const examID = req.params.examID;
     const query = `
-  SELECT questions.questionID, answers.answerID, questions.examID,questionText, option1, option2, option3, option4, correctAnswer
+  SELECT questions.questionID, answers.answerID, questions.examID,questionText, option1, option2, option3, option4, correctAnswer, attach
   FROM questions
   LEFT JOIN answers ON questions.questionID = answers.questionID
   WHERE questions.examID = :examID

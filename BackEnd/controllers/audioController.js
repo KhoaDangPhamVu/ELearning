@@ -1,4 +1,8 @@
 const { google } = require("googleapis");
+const multer = require('multer')
+const fs = require('fs')
+
+
 
 const getAudio = async (req, res) => {
   const fileID = req.params.fileID;
@@ -28,67 +32,91 @@ const getAudio = async (req, res) => {
   }
 };
 
+const GOOGLE_API_FOLDER_ID = '1UVGaKmsT__kuYhp3UUYwlDFqb5zGbNwr';
 
+const upload = multer({ dest: 'uploads/' });
 
-// module.exports = { getAudio };
+const uploadAudio = async(req,res)=>{
+  try {
+    const auth = new google.auth.GoogleAuth({
+      keyFile: './googlekey.json',
+      scopes: ['https://www.googleapis.com/auth/drive'],
+    });
 
-// const { google } = require('googleapis');
-// const fs = require('fs');
+    const driveService = google.drive({
+      version: 'v3',
+      auth,
+    });
 
-// const GOOGLE_API_FOLDER_ID = '1UVGaKmsT__kuYhp3UUYwlDFqb5zGbNwr';
+    // Multer middleware to handle file upload
+    upload.single('audioFile')(req, res, async (err) => {
+      if (err) {
+        console.error('Multer error', err);
+        return res.status(500).send('Multer Error');
+      }
 
-// let authInstance; // Singleton auth instance
+      try {
+        const fileMetaData = {
+          name: req.file.originalname,
+          parents: [GOOGLE_API_FOLDER_ID],
+        };
 
-// const getAudio = async (req, res) => {
-//   const fileID = req.params.fileID;
+        const media = {
+          mimeType: req.file.mimetype,
+          body: fs.createReadStream(req.file.path),
+        };
 
-//   try {
-//     // Create auth instance if not already created
-//     if (!authInstance) {
-//       const auth = new google.auth.GoogleAuth({
-//         keyFile: './googlekey.json',
-//         scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-//       });
+        const response = await driveService.files.create({
+          resource: fileMetaData,
+          media: media,
+          fields: 'id',
+        });
 
-//       authInstance = await auth.getClient();
-//     }
+        // Remove the temporarily uploaded file
+        fs.unlinkSync(req.file.path);
 
-//     const driveService = google.drive({
-//       version: 'v3',
-//       auth: authInstance,
-//     });
+        res.status(200).json({ fileId: response.data.id });
+      } catch (error) {
+        console.error('Upload file error', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+  } catch (error) {
+    console.error('Auth error', error);
+    res.status(500).send('Auth Error');
+  }
+}
 
-//     const file = await driveService.files.get({
-//       fileId: fileID,
-//       fields: 'name,webViewLink,mimeType', // Include mimeType in fields
-//     });
+const deleteAudio = async(req,res) =>{
+  try{
+    const fileId = req.params.fileId
 
-//     const fileName = file.data.name;
+    if (!fileId) {
+      return res.status(400).json({ error: 'Missing fileId in request body' });
+    }
 
-//     // Use files.export method to generate temporary download link
-//     const downloadLink = await driveService.files.export({
-//       fileId: fileID,
-//       mimeType: 'audio/mpeg',
-//     });
+    const auth = new google.auth.GoogleAuth({
+      keyFile: './googlekey.json',
+      scopes: ['https://www.googleapis.com/auth/drive'],
+    });
 
-//     // Set content headers
-//     res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
-//     res.setHeader('Content-Type', file.data.mimeType); // Use mimeType from file metadata
+    const driveService = google.drive({
+      version: 'v3',
+      auth,
+    });
 
-//     // Stream the audio file
-//     res.status(200);
-//     downloadLink.data.pipe(res);
-//   } catch (error) {
-//     console.error('Error:', error.message);
+    // Delete the file by fileId
+    await driveService.files.delete({
+      fileId: fileId,
+    });
 
-//     // Provide more specific error message to client
-//     if (error.code === 404) {
-//       res.status(404).send('Audio file not found');
-//     } else {
-//       res.status(500).send('Internal Server Error');
-//     }
-//   }
-// };
+    res.status(200).json({ message: `File with ID ${fileId} deleted successfully.` });
+  }catch(error){
+    console.error('API error', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
 const API_KEY_PATH = "./googlekey.json";
 
@@ -119,4 +147,4 @@ const getDriveData = async (req, res) => {
   }
 };
 
-module.exports = { getAudio, getDriveData };
+module.exports = { getAudio, getDriveData,uploadAudio,deleteAudio};

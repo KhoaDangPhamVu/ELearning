@@ -257,7 +257,9 @@
               handlePreviousButton(
                 questionStore.filteredQuestion(route.params.id)[
                   currentQuestionIndex - 1
-                ].questionID
+                ].questionID,questionStore.filteredQuestion(route.params.id)[
+                  currentQuestionIndex - 1
+                ].attach
               )
             "
             :disabled="currentQuestionIndex === 0"
@@ -274,7 +276,9 @@
               handleNextButton(
                 questionStore.filteredQuestion(route.params.id)[
                   currentQuestionIndex + 1
-                ].questionID
+                ].questionID,questionStore.filteredQuestion(route.params.id)[
+                  currentQuestionIndex + 1
+                ].attach
               )
             "
             :disabled="
@@ -495,6 +499,7 @@ import TimeupModal from "../../components/User/QuizPage/TimeupModal.vue";
 
 import { useAudioStore } from "../../store/audio";
 
+
 const audioStore = useAudioStore();
 
 const examStore = useExamStore();
@@ -639,9 +644,10 @@ const handleSelectAnswer = (answer, questionID) => {
   console.log(containAnswer.value);
 };
 
-const handleNextButton =async(questionID) => {
+const handleNextButton =async(questionID,fileId) => {
+  console.log(fileId);
   
-  await audioStore.fetchAudio('1ExJlLLp1HaRBTWhqbWCJ5WTcvS0bxydC')
+  await audioStore.fetchAudio(fileId)
   refreshAudioElement()
   calculateTimeSpent();
   containAnswer.value = null;
@@ -650,6 +656,7 @@ const handleNextButton =async(questionID) => {
   questionID = Number(questionID);
   containAnswer.value = trackingExamStore.getSelectedAnswer(questionID);
   isQuestionAnswered(questionID);
+  playing.value = false;
   
 };
 
@@ -661,22 +668,29 @@ const refreshAudioElement = () => {
 
 
 
-const handlePreviousButton = async(questionID) => {
-  await audioStore.fetchAudio('1742BpoFuR4of1iki7XZvCmPiqPnWfc4b')
+const handlePreviousButton = async(questionID,fileId) => {
+  
+  await audioStore.fetchAudio(fileId)
   refreshAudioElement()
   containAnswer.value = null;
   currentQuestionIndex.value -= 1;
   trackingExamStore.currentQuestionIndex -= 1;
   questionID = Number(questionID);
   containAnswer.value = trackingExamStore.getSelectedAnswer(questionID);
+  playing.value = false;
 };
 
-const hanldeLastQuestButton = () => {
+const hanldeLastQuestButton = async() => {
   containAnswer.value = null;
   trackingExamStore.currentQuestionIndex += 1;
   currentQuestionIndex.value = questionStore.lastIndex;
+  const fileID = questionStore.filteredQuestion(route.params.id)[currentQuestionIndex.value].attach
+  await audioStore.fetchAudio(fileID);
+  refreshAudioElement()
   const questionID = questionStore.getLastQuestion();
+  
   containAnswer.value = trackingExamStore.getSelectedAnswer(questionID);
+  playing.value = false;
 };
 
 const handleSubmit = async () => {
@@ -779,6 +793,8 @@ const handleAddEmptyResult = async () => {
 const handleReset = () => {
   trackingExamStore.resetState();
   resultStore.resetResultStore();
+  // questionStore.resetQuestionStore();
+  audioStore.resetAudioStore();
 };
 
 const formattedTimeRemaining = computed(() => {
@@ -797,7 +813,7 @@ onMounted(async () => {
   console.log(trackingExamStore.getTurnID);
   startExam();
   // Start the countdown
-  await audioStore.fetchAudio('1742BpoFuR4of1iki7XZvCmPiqPnWfc4b');
+  await audioStore.fetchAudio(questionStore.filteredQuestion(route.params.id)[0].attach);
   console.log(audioStore.getAudioValue);
   audioRef.value = document.querySelector("audio");
   console.log("siuuuu");

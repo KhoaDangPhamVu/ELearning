@@ -39,6 +39,7 @@ db.results = require('./resultModel.js')(sequelize,DataTypes)
 db.trackingExam = require('./trackingExamModel.js')(sequelize,DataTypes)
 db.user = require("../models/userModel.js")(sequelize,DataTypes);
 db.role = require("../models/roleModel.js")(sequelize,DataTypes);
+db.profile = require("../models/profileModel.js")(sequelize,DataTypes)
 
 
 

@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
                     key: 'examID'
                 }
             }
-
         },
         questionText: {
             type: DataTypes.STRING,
@@ -38,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
         attach: {
-            type: DataTypes.BLOB,
+            type: DataTypes.STRING,
             allowNull: true,
         }
 

@@ -122,6 +122,11 @@ export const useQuestionStore = defineStore('questionStore', {
         console.log('Error:', error);
         return null;
       }
+    },
+    resetQuestionStore(){
+      this.questions = [];
+      this.choosedQuestion = [];
+      this.validateQuestion = [];
     }
   }
 })

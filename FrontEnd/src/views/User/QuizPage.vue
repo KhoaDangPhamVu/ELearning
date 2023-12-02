@@ -423,6 +423,7 @@ const examStore = useExamStore();
 const questionStore = useQuestionStore();
 const trackingExamStore = useTrackingExamStore();
 const resultStore = useResultStore();
+
 const route = useRoute();
 
 const questionInExam = ref(null);

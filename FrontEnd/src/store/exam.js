@@ -13,6 +13,9 @@ export const useExamStore = defineStore('examStore', {
     totalExam() {
       return this.exams.length;
     },
+    typeOfExam() {
+      return this.exam.examStatus;
+    }
 
   },
   actions: {
@@ -21,6 +24,7 @@ export const useExamStore = defineStore('examStore', {
         const response = await examService.getExam(examID);
         this.exam = response.data;
         console.log("Get Data successful: ",response.data);
+        
       }catch(error) { 
         console.log("Get Data exam failed: ",error);
       }

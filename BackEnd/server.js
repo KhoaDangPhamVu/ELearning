@@ -35,6 +35,7 @@ require("./routes/examRouter.js")(app);
 require("./routes/trackingExamRouter.js")(app);
 require("./routes/resultRouter.js")(app);
 require('./routes/audioRouter.js')(app);
+require('./routes/profileRouter.js')(app);
 
 // app.use('/api/exam',routerExam)
 // app.use('/api/question',routerQuestion)
@@ -54,7 +55,7 @@ const Role = db.role;
 
 db.sequelize.sync({force: false}).then(() => {
   console.log('Drop and Resync Database with { force: true }');
-  //initial();
+  // initial();
 });
 
 function initial() {

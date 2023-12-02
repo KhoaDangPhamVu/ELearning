@@ -59,7 +59,7 @@ const routes = [
     component: ResultPage,
   },
   {
-    path: "/profile",
+    path: "/profile/:userID",
     name: "UserProfile",
     component: UserProfilePage
   },
