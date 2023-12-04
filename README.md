@@ -14,23 +14,27 @@
 ![ExamPage](https://github.com/KhoaDangPhamVu/ELearning/assets/116179021/467f2be2-5ffc-4419-bf7f-ee1bae57dbd6)
 
 ## Installation
-1. Clone project
+#1. Clone project
 ```
 git clone https://github.com/KhoaDangPhamVu/ELearning.git
 ```
-2. In BackEnd Folder
+#2. In BackEnd Folder
 ```
 cd BackEnd
 npm install
 node server.js
 ```
-3. In FrontEnd Folder
+#3. In FrontEnd Folder
 
 ```
 cd FrontEnd
 npm install
 npm run dev
 ```
-Admin Account
+#Admin Account
+
+```
 username: admin
 password: admin123
+```
+
