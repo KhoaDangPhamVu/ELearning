@@ -174,7 +174,9 @@ const getProfileUser = async (req, res) => {
   try {
     
     const userID = req.params.userID;
-    const query = `SELECT * FROM userprofiles WHERE userprofiles.userID = :userID`;
+    const query = `SELECT profileID,userprofiles.userID,firstName,lastName,gender,phone,city,country,image, users.username,users.email FROM userprofiles 
+    LEFT JOIN users ON userprofiles.userID = users.userID
+    WHERE users.userID = :userID`;
     const profile = await db.sequelize.query(query, {
       replacements: { userID: userID },
       type: QueryTypes.SELECT,

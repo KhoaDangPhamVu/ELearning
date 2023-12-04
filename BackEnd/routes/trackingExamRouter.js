@@ -1,5 +1,5 @@
 const trackingExamController = require('../controllers/trackingExamController');
-
+const { authJwt } = require("../middleware");
 module.exports = function(app) {
     app.use(function(req, res, next) {
       res.header(
@@ -9,6 +9,6 @@ module.exports = function(app) {
       next();
     });
     
-    app.post('/api/history/addTrackingExam',trackingExamController.createTrackingExam)
+    app.post('/api/history/addTrackingExam',[authJwt.verifyToken],trackingExamController.createTrackingExam)
 
 };

@@ -63,8 +63,10 @@ import { ref,onMounted } from 'vue';
 // import { useAuthStore } from "../../store/auth";
 import { useAuthStore } from '../../store/auth';
 import { useRouter } from "vue-router";
+import { useProfileStore } from '../../store/profile';
 const router = useRouter();
 const authStore = useAuthStore();
+const profileStore = useProfileStore();
 const username = ref(null);
 const password = ref(null);
 const email = ref(null);
@@ -100,8 +102,10 @@ const handleRegister = async()=>{
     isLoginPage.value = true;
     return;
   }
-
+  const randomUserID =authStore.randomUserID();
+  console.log(randomUserID);
   const user = {
+    userID: randomUserID,
     username: username.value,
     password: password.value,
     email: email.value
@@ -120,7 +124,7 @@ const resetForm = ()=>{
 }
 
 onMounted(() => {
-
+  resetForm();
 });
 
 

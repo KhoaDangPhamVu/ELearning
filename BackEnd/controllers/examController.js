@@ -81,7 +81,7 @@ const deleteExam = async (req, res) => {
 
     const deletedExam = await Exam.destroy({ where: { examID: id } });
 
-    if (deletedExam === 0 || deletedQuestion === 0 || deletedAnswer === 0) {
+    if (deletedExam === 0 && deletedQuestion === 0 && deletedAnswer === 0) {
       console.log(`Exam with ID ${id} does not exist.`);
       return res.status(404).send(`Exam with ID ${id} does not exist.`);
     }

@@ -10,27 +10,14 @@ module.exports = function(app) {
       next();
     });
   
-    app.post('/api/question/addQuestion/:examID',questionController.createQuestion);
+    app.post('/api/question/addQuestion/:examID',[authJwt.verifyToken, authJwt.isAdmin],questionController.createQuestion);
 
-    app.patch('/api/question/updateQuestion/:questID',questionController.updateQuestion);
+    app.patch('/api/question/updateQuestion/:questID',[authJwt.verifyToken, authJwt.isAdmin],questionController.updateQuestion);
 
-    app.delete('/api/question/deleteQuestion/:questID',questionController.deleteQuestion);
+    app.delete('/api/question/deleteQuestion/:questID',[authJwt.verifyToken, authJwt.isAdmin],questionController.deleteQuestion);
 
-    app.get('/api/question/getQuestions/:examID',questionController.getQuestionsInExam);
+    app.get('/api/question/getQuestions/:examID',[authJwt.verifyToken],questionController.getQuestionsInExam);
 
-    app.get('/api/question/checkLimitQuest/:examID',questionController.getLimitQuest);
+    app.get('/api/question/checkLimitQuest/:examID',[authJwt.verifyToken],questionController.getLimitQuest);
   };
 
-// const router = require('express').Router()
-
-// router.post('/addQuestion/:examID',questionController.createQuestion);
-
-// router.patch('/updateQuestion/:questID',questionController.updateQuestion);
-
-// router.delete('/deleteQuestion/:questID',questionController.deleteQuestion);
-
-// router.get('/getQuestions/:examID',questionController.getQuestionsInExam);
-
-// router.get('/checkLimitQuest/:examID',questionController.getLimitQuest);
-
-// module.exports = router

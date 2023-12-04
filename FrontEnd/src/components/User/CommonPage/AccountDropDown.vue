@@ -60,6 +60,25 @@
               
             </li>
             <li class="text-white ">
+                <router-link :to="{name: 'ExamPage'}">
+                  <div class=" px-4 py-3 text-white hover:bg-redLight flex items-center cursor-pointer">
+                    <div class=" flex justify-center items-center ml-1 mr-4 w-8 h-8 rounded-full bg-[#575859]">
+                        
+                    <img
+                      class="h-4 w-4   "
+                      src="../../../assets/images/admin.png"
+                      alt="profile image"
+                    />
+                  </div>
+                  <div class="font-semibold block "><p>Admin</p></div>
+                  
+                </div>
+                </router-link>
+                
+             
+              
+            </li>
+            <li class="text-white ">
                 
                 <div class=" px-4 py-3 text-white hover:bg-redLight flex items-center cursor-pointer" @click="handleLogOut">
                     <div class=" flex justify-center items-center ml-1 mr-4 w-8 h-8 rounded-full bg-[#575859]">

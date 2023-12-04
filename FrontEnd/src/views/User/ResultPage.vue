@@ -307,6 +307,7 @@ const examStore = useExamStore();
 const examID = ref(null);
 const turnID = ref(null);
 
+
 const questionStore = useQuestionStore();
 const timeTakeQuiz = ref(null);
 const duration = ref(null);
@@ -329,9 +330,10 @@ const formatTime = (seconds)=>{
 }
 
 onMounted(async () => {
+  const userID = JSON.parse(localStorage.getItem('user')).id;
   await examStore.getExam(examID.value);
-  await resultStore.getCorrectQuestion(examID.value, 2015, turnID.value);
-  await resultStore.getQuestionTracked(examID.value, 2015, turnID.value);
+  await resultStore.getCorrectQuestion(examID.value, userID, turnID.value);
+  await resultStore.getQuestionTracked(examID.value, userID, turnID.value);
   await questionStore.getQuestionInExam(examID.value);
   await resultStore.getResult(turnID.value);
   await resultStore.getDuration(examID.value);

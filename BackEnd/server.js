@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require("bcryptjs");
 const cookieSession = require("cookie-session");
 const app = express();
 
@@ -51,19 +52,63 @@ app.listen(PORT, () => {
 const db = require("./models")
 
 const Role = db.role;
+const User = db.user;
+const Profile = db.profile;
 
-db.sequelize.sync({force: false}).then(() => {
+
+
+db.sequelize.sync({ force: false }).then(() => {
   console.log('Drop and Resync Database with { force: true }');
-  // initial();
+  initial(); // Call initial function
 });
 
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user",
-  });
-  Role.create({
-    id: 2,
-    name: "admin",
-  });
+async function initial() {
+  // Check if admin user already exists
+  const existingAdmin = await User.findOne({ where: { username: 'admin' } });
+
+  if (!existingAdmin) {
+    // Create roles and admin user only if it doesn't exist
+    await Role.create({ id: 1, name: 'user' });
+    await Role.create({ id: 2, name: 'admin' });
+
+    const adminUser = await User.create({
+      userID: 1,
+      username: 'admin',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('admin123', 8),
+    });
+    await adminUser.setRoles([2]);
+    await Profile.create({userID: 1})
+    console.log('Admin user created successfully!');
+  } else {
+    console.log('Admin user already exists.');
+  }
 }
+
+
+// db.sequelize.sync({force: false}).then(() => {
+//   console.log('Drop and Resync Database with { force: true }');
+//    initial();
+// });
+
+// function initial() {
+//   Role.create({
+//     id: 1,
+//     name: "user",
+//   });
+//   Role.create({
+//     id: 2,
+//     name: "admin",
+//   });
+//   User.create({
+//     userID: 1,
+//     username: 'admin',
+//     email: 'admin@example.com',
+//     password: bcrypt.hashSync('admin123', 8),
+//   }).then((adminUser) => {
+//     adminUser.setRoles([2]).then(() => {
+//       console.log('Admin user created successfully!');
+//     });
+//   });
+  
+// }

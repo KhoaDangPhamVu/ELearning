@@ -1,11 +1,22 @@
 <template>
     <div
       id="listExam"
-      class="bg-gradient-to-r from-purpleLinear from-10% via-blueLinear via-30% to-greenLinear to-90% flex items-center p-8 min-h-screen"
+      class="bg-gradient-to-r from-purpleLinear from-10% via-blueLinear via-30% to-greenLinear to-90% flex items-center p-8 min-h-screen relative"
     >
       <div
-        class="p-12 w-full rounded-2xl shadow-lg bg-white grid grid-rows-[0.4fr, 1fr, 1fr, 1fr] gap-4 min-h-screen"
+        class="p-12 w-full rounded-2xl shadow-lg bg-white grid grid-rows-[0.4fr, 1fr, 1fr, 1fr] gap-4 min-h-screen "
       >
+
+      <router-link :to="{ name: 'HomePage' }">
+        <div class="p-12 absolute top-0 left-0">
+          <button
+            class="bg-greenColor hover:bg-blue-600 text-white font-medium py-2 w-26 px-4 rounded-lg"
+            @click="toggleConfirmModal"
+          >
+            <font-awesome-icon icon="arrow-left" class="mr-2" /> Back
+          </button>
+        </div>
+      </router-link>
         <!-- General Item -->
         <div>
           <div
@@ -427,7 +438,7 @@
                     <button
                       type="submit"
                       class="w-full px-2 py-4 text-white bg-red rounded-md focus:bg-grayDark-400 focus:outline-none mt-4"
-                      @click="handleSubmitDelete(examid)"
+                      @click.prevent="handleSubmitDelete(examid)"
                     >
                       Delete Exam
                     </button>

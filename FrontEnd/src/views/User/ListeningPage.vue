@@ -56,7 +56,7 @@
               Your browser does not support the audio element.
             </audio>
             <div v-else>Loading...</div>
-            <p class="text-white">{{ audioStore.getAudioValue }}</p>
+            
 
             <div
               class="w-full h-12 rounded-lg bg-grayLight flex items-center justify-center"
@@ -518,7 +518,11 @@ const questionID = ref(null);
 const selectedAnswer = ref(null);
 const isSelected = ref(false);
 
+
 const router = useRouter();
+
+const user = JSON.parse(localStorage.getItem('user'));
+const userID = user.id;
 
 const startTime = ref(null);
 
@@ -612,7 +616,7 @@ const handleTrackingExam = (questionID) => {
   console.log(selectedAnswer.value);
   const data = {
     examID: Number(route.params.id),
-    userID: 2015,
+    userID: userID,
     questionID: questionID,
     selectedAnswer: selectedAnswer.value,
     turnID: trackingExamStore.getTurnID,
@@ -695,12 +699,12 @@ const hanldeLastQuestButton = async() => {
 
 const handleSubmit = async () => {
   try {
-    trackingExamStore.markUnansweredQuestions(2015);
+    trackingExamStore.markUnansweredQuestions(userID);
 
     await trackingExamStore.addTrackingExam();
     await resultStore.getCorrectQuestion(
       Number(route.params.id),
-      2015,
+      userID,
       trackingExamStore.getTurnID
     );
 
@@ -739,7 +743,7 @@ const handleEmptySubmitTimeup = async () => {
     //   turnID: trackingExamStore.getTurnID,
     // };
     // trackingExamStore.selectedQuestion(data);
-    trackingExamStore.markUnansweredQuestions(2015);
+    trackingExamStore.markUnansweredQuestions(userID);
     await trackingExamStore.addTrackingExam();
     trackingExamStore.resetState();
     resultStore.resetResultStore();
@@ -752,7 +756,7 @@ const handleAddResult = async () => {
   try {
     const data = {
       examID: Number(route.params.id),
-      userID: 2015,
+      userID: userID,
       score: resultStore.getScoreValue,
       time: calculateTimeSpent(),
       turnID: trackingExamStore.turnID,
@@ -769,7 +773,7 @@ const handleAddEmptyResult = async () => {
   try {
     const data = {
       examID: Number(route.params.id),
-      userID: 2015,
+      userID: userID,
       score: 0,
       time: calculateTimeSpent(),
       turnID: trackingExamStore.turnID,
@@ -804,6 +808,7 @@ const formattedTimeRemaining = computed(() => {
 });
 
 onMounted(async () => {
+  
   handleReset();
   await trackingExamStore.getQuestionInExam(Number(route.params.id));
   await questionStore.getLimitQuest(Number(route.params.id));

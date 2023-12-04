@@ -40,7 +40,7 @@
           </div>
 
           <div class="mt-2">
-            <h2 class="font-bold text-center text-black text-xl">KhoaFarm</h2>
+            <h2 class="font-bold text-center text-black text-xl">{{ username }}</h2>
           </div>
 
           <div
@@ -127,6 +127,12 @@
         <!-- Line -->
         <div class="w-full border-t-2 bg-grayDark"></div>
 
+        <div class="flex justify-center">
+          <div v-if="!isValidPhoneNumber" class="flex justify-center mt-2 w-[90%]  bg-peachColor p-4 rounded-lg ">
+            <p class="text-md font-semibold">Invalid PhoneNumber</p>
+        </div>
+        </div>
+        
         <!-- profile content -->
 
         <!-- Part 1 -->
@@ -178,7 +184,7 @@
               <h2 class="font-semibold text-md">Email Address</h2>
               <input
                 type="text"
-                value="khoafarm@gmail.com"
+                v-model="email"
                 disabled
                 class="ml-3 mt-2 w-full md:w-[80%] text-gray bg-whiteMilk shadow-[4px_4px_4px_4px_rgba(0,0,0,0.25)] p-2 rounded-md focus:shadow-outline-gray focus:outline-none cursor-not-allowed"
               />
@@ -271,7 +277,7 @@
               <h2 class="font-semibold text-md">Email Address</h2>
               <input
                 type="text"
-                value="khoafarm@gmail.com"
+                v-model="email"
                 disabled
                 class="ml-3 mt-2 w-full md:w-[80%] text-gray bg-whiteMilk shadow-[4px_4px_4px_4px_rgba(0,0,0,0.25)] p-2 rounded-md focus:shadow-outline-gray focus:outline-none cursor-not-allowed"
               />
@@ -338,10 +344,10 @@
                 <tr>
                   <th class="p-0 md:p-3"></th>
                   <th class="p-3 text-left">Exam</th>
-                  <th class="p-3 text-left">Duration</th>
-                  <th class="p-3 text-left">Score</th>
+                  <th class=" p-3 text-left">Duration</th>
+                  <th class=" p-3 text-left">Score</th>
 
-                  <th class="p-3 text-left">Status</th>
+                  <th class=" p-3 hidden md:table-cell text-left">Status</th>
                   <th class="p-3 text-left">History</th>
                 </tr>
               </thead>
@@ -368,12 +374,12 @@
                     </div>
                   </td>
                   <td class="p-3">{{ exam.title }}</td>
-                  <td class="p-3">{{ exam.duration }}</td>
+                  <td class="p-3">{{ exam.duration/60 }} minutes</td>
                   <td class="p-3 uppercase">{{ exam.score }}</td>
 
-                  <td class="p-3">
+                  <td class=" hidden md:table-cell p-3">
                     <span
-                      class="bg-greenColor font-semibold text-white rounded-md p-2"
+                      class=" bg-greenColor font-semibold text-white rounded-md p-2"
                       >DONE</span
                     >
                   </td>
@@ -428,7 +434,10 @@ const phone = ref(null);
 const country = ref(null);
 const city = ref(null);
 const email = ref(null);
+const username = ref(null);
 const totalTurn = ref(null);
+const isValidPhoneNumber = ref(true);
+
 
 const selectedFile = ref(null);
 
@@ -457,6 +466,12 @@ const handleImageChange = async (event) => {
     console.log("Xong");
   }
 };
+
+const validatePhoneNumber = ()=>{
+  const phoneNumberRegex = /^[0-9]+$/;
+  isValidPhoneNumber.value = phoneNumberRegex.test(phone.value);
+}
+
 
 const loadProfile = () => {
   if (profileStore.getFirstNameValue) {
@@ -494,11 +509,18 @@ const loadProfile = () => {
   } else {
     totalTurn.value = 0;
   }
+  email.value = profileStore.getEmailValue;
+  username.value = profileStore.getUsernameValue;
+
 };
 
 const handleEditSubmit = async () => {
   if (phone.value === "None") {
     phone.value = null;
+  }
+  validatePhoneNumber()
+  if(!isValidPhoneNumber){
+    return
   }
   const data = {
     firstName: firstName.value,
@@ -512,6 +534,8 @@ const handleEditSubmit = async () => {
 };
 
 onMounted(async () => {
+
+  console.log("Problem:",userID);
   await profileStore.getFileId(userID);
   await profileStore.getProfileUser(userID);
   await profileStore.getTotalTurns(userID);

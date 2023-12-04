@@ -11,6 +11,12 @@ export const useProfileStore = defineStore("profileStore", {
     totalTurns: null
   }),
   getters: {
+    getEmailValue(){
+        return this.profile.email;
+    },
+    getUsernameValue(){
+        return this.profile.username;
+    },
     getFileIdValue(){
         return this.fileID;
     },
@@ -148,6 +154,15 @@ export const useProfileStore = defineStore("profileStore", {
             console.log("GET data successful:" ,data);
         }catch(error){
             console.log("GET data error: ",error);
+        }
+    },
+    async createProfileUser(userID){
+        try{
+            const response = await profileService.createProfileUser(userID);
+            const data = await response.data;
+            console.log("Create profile successful: ",data);
+        }catch(error){
+            console.log("Create profile failed: ",error);
         }
     }
   },

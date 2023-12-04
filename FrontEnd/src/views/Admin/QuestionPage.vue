@@ -322,7 +322,7 @@
                       </div>
                     </div>
 
-                    <div>
+                    <div v-if="examStore.typeOfExam === 'Listening'">
                       <label
                         class="block mb-2 text-sm font-medium text-grayDropDown"
                         for="file_input"
@@ -544,7 +544,7 @@
                       </div>
                     </div>
 
-                    <div class="mb-6" >
+                    <div v-if="examStore.typeOfExam === 'Listening'" class="mb-6" >
                       <p
                         class="mt-1 mb-1 py-1 text-sm text-black"
                       >
@@ -741,7 +741,6 @@ const handleSubmidAddListening = async () => {
       toggleListenModal();
       await questionStore.addQuestion(Number(route.params.id), data);
       resetForm();
-      
     }
   } catch (error) {
     console.log("Error when add data: ", error);
@@ -754,6 +753,7 @@ const handleSubmidAdd = async () => {
     toggleModal();
     toggleErrorModal();
   } else {
+
     const data = {
       questionID: questionStore.randomQuestionID(),
       examID: Number(route.params.id),
@@ -826,9 +826,12 @@ const openQuestionSetting = async (questionID) => {
   option4.value = questionStore.choosedQuestion[0].option4;
   questionid.value = questionStore.choosedQuestion[0].questionID;
   selectedFile.value = questionStore.choosedQuestion[0].attach;
-  await audioStore.getInfoAudio(selectedFile.value);
-  console.log(audioStore.getDataAudio);
-  console.log(audioStore.getAudioName);
+  if(examStore.typeOfExam === 'Listening'){
+    await audioStore.getInfoAudio(selectedFile.value);
+    console.log(audioStore.getDataAudio);
+    console.log(audioStore.getAudioName);
+  }
+  
   toggleUpdateModal();
 };
 
@@ -847,29 +850,34 @@ onMounted(async () => {
   await questionStore.getQuestionInExam(Number(route.params.id));
   await questionStore.getLimitQuest(Number(route.params.id));
   await examStore.getExam(Number(route.params.id));
+  console.log(examStore.typeOfExam);
   
 });
 
 const toggleModal = () => {
   //Hàm cho phép đóng và mở modal
+  resetForm();
   modalActive.value = !modalActive.value;
 };
 
 const isModalErrorActive = ref(null);
 
 const toggleErrorModal = () => {
+
   isModalErrorActive.value = !isModalErrorActive.value;
 };
 
 const updateModalActive = ref(false);
 
 const toggleUpdateModal = () => {
+  
   updateModalActive.value = !updateModalActive.value;
 };
 
 const listenModalActive = ref(false);
 
 const toggleListenModal = () => {
+  resetForm();
   listenModalActive.value = !listenModalActive.value;
 };
 

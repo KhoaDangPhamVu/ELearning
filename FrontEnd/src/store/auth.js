@@ -16,6 +16,9 @@ export const useAuthStore = defineStore('authStore', {
     },
     getLoggedInValue(){
       return this.loggedIn;
+    },
+    getUserIdValue(){
+      return this.user.userID;
     }
   },
   actions: {
@@ -40,11 +43,15 @@ export const useAuthStore = defineStore('authStore', {
 
     async register(user) {
       try {
-        console.log(user);
-        const response = await AuthService.register(user);
+        const userID = user.userID;
+        const responseRegister = await AuthService.register(user);
+        if(responseRegister){
+          const responseProfile = await profileService.createProfileUser(userID);
+          console.log("Create Profile Successful: ", responseProfile)
+        }
         this.registerSuccess();
         this.showRegisterSuccessful();
-        console.log("Register Successful: ",response.data);
+        console.log("Register Successful: ",responseRegister.data);
       } catch (error) {
         this.registerFailure();
         this.showRegisterFail();
@@ -95,5 +102,15 @@ export const useAuthStore = defineStore('authStore', {
     registerFailure() {
       this.loggedIn = false;
     },
+    randomUserID() {
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const miliseconds = now.getMilliseconds();
+      const formattedTime = `${String(seconds).padStart(2, "0")}${String(
+        miliseconds
+      ).padStart(4, "0")}`;
+      const randomID = Number(formattedTime) - Math.floor(Math.random() * (1103));
+      return randomID;
+    }
   },
 });
