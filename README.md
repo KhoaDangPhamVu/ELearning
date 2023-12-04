@@ -4,34 +4,34 @@
 ![INFRASTRUCTRE](https://github.com/KhoaDangPhamVu/ELearning/assets/116179021/20358b33-03a5-4932-a78f-3ef946169313)
 
 # OverView 
-1.MainPage
+**MainPage**
 ![MainPage](https://github.com/KhoaDangPhamVu/ELearning/assets/116179021/e92715ca-31b0-4ee9-9a6e-8178b55ab481)
 
-2.QuizPage
+**QuizPage**
 ![QuizPage](https://github.com/KhoaDangPhamVu/ELearning/assets/116179021/df2cf3d2-c72c-456f-ae24-6a1a7c89dca4)
 
-3.CMS Admin
+**CMS Admin**
 ![ExamPage](https://github.com/KhoaDangPhamVu/ELearning/assets/116179021/467f2be2-5ffc-4419-bf7f-ee1bae57dbd6)
 
 ## Installation
-#1. Clone project
+**1. Clone project**
 ```
 git clone https://github.com/KhoaDangPhamVu/ELearning.git
 ```
-#2. In BackEnd Folder
+**2. In BackEnd Folder**
 ```
 cd BackEnd
 npm install
 node server.js
 ```
-#3. In FrontEnd Folder
+**#3. In FrontEnd Folder**
 
 ```
 cd FrontEnd
 npm install
 npm run dev
 ```
-#Admin Account
+**Admin Account**
 
 ```
 username: admin
