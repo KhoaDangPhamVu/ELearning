@@ -9,7 +9,7 @@
           <Transition name="modal-inner">
             <div
               v-if="modalListenActive"
-              class="p-4 bg-white self-start w-1/2 rounded-xl mt-4"
+              class="p-4 bg-white self-start w-1/2 rounded-xl mt-2"
             >
             <div class="flex flex-row-reverse">
                 <button

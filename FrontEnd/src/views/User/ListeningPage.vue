@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-primaryColor h-auto md:h-screen">
+  <div class="bg-primaryColor h-full ">
     <div class="text-white flex justify-between p-6">
       <div>
         <h1 class="text-xl md:text-2xl lg:text-3xl">
@@ -523,6 +523,8 @@ const router = useRouter();
 
 const user = JSON.parse(localStorage.getItem('user'));
 const userID = user.id;
+const role = user.roles[0];
+console.log(role)
 
 const startTime = ref(null);
 

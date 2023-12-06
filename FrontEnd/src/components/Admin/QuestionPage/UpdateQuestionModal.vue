@@ -6,7 +6,7 @@
       >
         <div
           v-if="updateModalActive"
-          class="p-4 bg-white self-start w-1/3 rounded-xl mt-4"
+          class="p-4 bg-white self-start w-1/2 rounded-xl mt-2"
         >
           <button
             class="text-white bg-grayDark py-2 px-6 rounded-lg "

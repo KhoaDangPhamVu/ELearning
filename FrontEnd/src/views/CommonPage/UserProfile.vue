@@ -21,7 +21,7 @@
     >
       <!-- Image  -->
       <div
-        class="flex flex-col justify-around p-4 rounded-xl h-4/5 w-52 sm:w-1/3 md:w-1/3 lg:w-1/5 bg-white shadow-[10px_15px_20px_-15px_rgba(0,0,0,0.8)]"
+        class="flex flex-col justify-around p-4 rounded-xl h-full md:h-[90%] w-52 sm:w-1/3 md:w-1/3 lg:w-1/5 bg-white shadow-[10px_15px_20px_-15px_rgba(0,0,0,0.8)]"
       >
         <div>
           <div class="flex justify-center items-center">
@@ -81,7 +81,7 @@
       </div>
       <!-- Information -->
       <div
-        class="rounded-xl ml-6 h-4/5 w-80 sm:w-full md:w-full lg:w-1/2 bg-white shadow-[10px_15px_20px_-15px_rgba(0,0,0,0.8)]"
+        class="rounded-xl ml-6 h-full md:h-[90%] w-80 sm:w-full md:w-full lg:w-1/2 bg-white shadow-[10px_15px_20px_-15px_rgba(0,0,0,0.8)]"
       >
         <!-- Nav bar -->
         <div class="p-4 ml-4 flex">
@@ -308,7 +308,7 @@
           </div>
 
           <div
-            class="flex flex-col md:flex-row justify-between items-center w-full mt-6 md:mt-12"
+            class="flex flex-col md:flex-row  items-end w-full mt-6 md:mt-12"
           >
             <!-- Gender -->
             <div class="w-2/3 md:w-1/2">
@@ -319,16 +319,24 @@
                 class="ml-3 mt-2 w-full md:w-[80%] text-gray bg-whiteMilk shadow-[4px_4px_4px_4px_rgba(0,0,0,0.25)] p-2 rounded-md focus:shadow-outline-gray focus:outline-none"
               />
             </div>
+            <div class="ml-2">
+              <button
+              class="bg-purpleLinear hover:bg-blue-600 text-white font-medium py-1 md:py-2 w-40 md:w-40 px-3 md:px-4 rounded-lg shadow-lg"
+              @click="handleEditSubmit"
+            >
+              Edit
+            </button>
+            </div>
           </div>
 
-          <div class="mt-2 md:mt-8 flex justify-end items-center px-16">
+          <!-- <div class="mt-2 md:mt-8 flex justify-end items-center px-16">
             <button
               class="bg-purpleLinear hover:bg-blue-600 text-white font-medium py-1 md:py-2 w-40 md:w-40 px-3 md:px-4 rounded-lg shadow-lg"
               @click="handleEditSubmit"
             >
               Edit
             </button>
-          </div>
+          </div> -->
         </div>
 
         <!-- Part 3 -->

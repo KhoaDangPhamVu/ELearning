@@ -125,7 +125,7 @@
                     <img src="../../assets/images/book.png" alt="" />
                   </div>
                   <div class="flex-1 ml-3 overflow-hidden">
-                    <h4 class="font-bold text-clip md:truncate">
+                    <h4 class="font-bold text-clip ">
                       {{ exam.title }}
                     </h4>
                   </div>
@@ -184,7 +184,7 @@
                     <img src="../../assets/images/headphones.png" alt="" />
                   </div>
                   <div class="flex-1 ml-3 overflow-hidden">
-                    <h4 class="font-bold truncate">{{ exam.title }}</h4>
+                    <h4 class="font-bold ">{{ exam.title }}</h4>
                   </div>
                 </div>
               
@@ -239,7 +239,7 @@
                     <img src="../../assets/images/pen.png" alt="" />
                   </div>
                   <div class="flex-1 ml-3 overflow-hidden">
-                    <h4 class="font-bold truncate">{{ exam.title }}</h4>
+                    <h4 class="font-bold ">{{ exam.title }}</h4>
                   </div>
                 </div>
               </div>

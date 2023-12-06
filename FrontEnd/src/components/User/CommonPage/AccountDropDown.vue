@@ -39,7 +39,7 @@
                 </div>
               </router-link>
             </li>
-            <li class=" text-white hover:bg-gray-100">
+            <!-- <li class=" text-white hover:bg-gray-100">
                 <router-link
                 to="/profile"
                 class="block px-4 py-3 text-white hover:bg-[#575859]"
@@ -58,8 +58,8 @@
                 </div>
               </router-link>
               
-            </li>
-            <li class="text-white ">
+            </li> -->
+            <li v-if="role === 'ROLE_ADMIN'" class="text-white ">
                 <router-link :to="{name: 'ExamPage'}">
                   <div class=" px-4 py-3 text-white hover:bg-redLight flex items-center cursor-pointer">
                     <div class=" flex justify-center items-center ml-1 mr-4 w-8 h-8 rounded-full bg-[#575859]">
@@ -134,6 +134,12 @@ const username = ref(null);
 const userID =ref(null);
 const authStore = useAuthStore();
 const router = useRouter();
+
+const localStorageUser = JSON.parse(localStorage.getItem('user'));
+
+const role = ref(null);
+role.value = localStorageUser.roles[0];
+console.log(role.value)
 
 const handleLogOut = ()=>{
   authStore.logout();

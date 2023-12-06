@@ -66,13 +66,13 @@
                     
                   </div>
                   <div
-                    class="flex flex-col xl:flex-row items-center bg-grayLight rounded-lg shadow-lg p-2 cursor-pointer"
+                    class="flex flex-col xl:flex-row items-center bg-grayLight rounded-lg shadow-lg p-1 md:p-2 cursor-pointer"
                     @click="openExamSettings(exam.examID)"
                   >
                     <img
                       src="../../assets/images/settings.png"
                       alt=""
-                      class="w-4 h-4 md:w-6 md:h-6 mr-1"
+                      class="w-3 h-3 md:w-5 md:h-5 mr-1"
                     />
                     <p class="font-semibold text-sm md:text-md">Setting</p>
                   </div>
@@ -135,7 +135,7 @@
                     <img
                       src="../../assets/images/settings.png"
                       alt=""
-                      class="w-4 h-4 md:w-6 md:h-6 mr-1"
+                      class="w-3 h-3 md:w-5 md:h-5 mr-1"
                     />
                     <p class="font-semibold text-sm md:text-md">Setting</p>
                   </div>
@@ -195,7 +195,7 @@
                     <img
                       src="../../assets/images/settings.png"
                       alt=""
-                      class="w-4 h-4 md:w-6 md:h-6 mr-1"
+                      class="w-3 h-3 md:w-5 md:h-5 mr-1"
                     />
                     <p class="font-semibold text-sm md:text-md">Setting</p>
                   </div>
